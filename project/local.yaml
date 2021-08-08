@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  django: &django
+    image: hackathon_django:v1
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - C_FORCE_ROOT=true
+    command:
+      - /bin/sh
+      - -c
+      - |
+        python3 /code/src/manage.py makemigrations
+        python3 /code/src/manage.py migrate
+        python3 /code/src/manage.py runserver 0.0.0.0:8000
